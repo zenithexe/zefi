@@ -1,7 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import React from "react";
-import { HoverBorderGradient } from "./ui/hover-border-gradient";
 function GeneratSeed() {
   return (
     <>
