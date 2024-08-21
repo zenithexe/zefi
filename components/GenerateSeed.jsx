@@ -1,10 +1,11 @@
-"use client";
-import { Button } from "@/components/ui/button";
+'use client';
+
 import React from "react";
-function GeneratSeed() {
+import { Button } from "./ui/button";
+function GeneratSeed({generateSeedFn}) {
   return (
     <>
-      <main className="-z-10 top-0">
+      <div className="-z-10 top-0">
         <div className="flex justify-center items-center h-screen">
           <div>
             <div className="flex flex-col gap-3">
@@ -14,8 +15,8 @@ function GeneratSeed() {
               </h1>
             </div>
             <div className="flex justify-center mt-20">
-              <Button className="px-10 py-6 rounded-full">
-                <div className="text-xl font-bold">Create Wallet</div>
+              <Button onClick={generateSeedFn} className="px-10 py-6 rounded-full cursor-pointer">
+                <p className="text-xl font-bold">Create Wallet</p>
               </Button>
             </div>
             <div className="mt-20">
@@ -23,7 +24,7 @@ function GeneratSeed() {
             </div>
           </div>
         </div>
-      </main>
+      </div>
     </>
   );
 }

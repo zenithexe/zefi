@@ -1,9 +1,9 @@
+'use client'
 import React from "react";
 import { Button } from "./ui/button";
 import { Copy } from "lucide-react";
 
-function SeedPhrase() {
-  const seed = new Array(12).fill("text1");
+function SeedPhrase({seed}) {
 
   return (
     <>
@@ -17,7 +17,7 @@ function SeedPhrase() {
           </Button>
         </div>
         <div className="grid grid-cols-3 gap-4">
-          {seed.map((seedPhase, index) => (
+          {seed?.map((seedPhase, index) => (
             <div
               key={index}
               className="text-2xl pl-5 pr-28 py-4 font-semibold text-left bg-gray-100 dark:bg-gray-900 hover:bg-gray-200 dark:hover:bg-slate-800  rounded-2xl"

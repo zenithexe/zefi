@@ -14,22 +14,30 @@ import {
   CirclePlus,
   Send,
   Trash,
+  UserRoundPlus,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 function NetworkDropdown() {
   return (
     <>
       <div>
-        <Select defaultValue="eth">
+        <Select defaultValue="ethereum">
           <SelectTrigger className="w-auto px-4 bg-white  dark:bg-gray-800 border-none focus:ring-0 focus:ring-offset-0">
             <SelectValue placeholder="Network" />
           </SelectTrigger>
           <SelectContent className="border-none">
             <SelectGroup>
               <SelectLabel>Network</SelectLabel>
-              <SelectItem value="eth">Ethereum</SelectItem>
-              <SelectItem value="sol">Solana</SelectItem>
+              <SelectItem value="ethereum">Ethereum</SelectItem>
+              <SelectItem value="solana">Solana</SelectItem>
             </SelectGroup>
           </SelectContent>
         </Select>
@@ -54,9 +62,6 @@ function AccountDropdown({ accounts }) {
                   Account {index}
                 </SelectItem>
               ))}
-              <SelectItem>
-                <Button>Add Account</Button>
-              </SelectItem>
             </SelectGroup>
           </SelectContent>
         </Select>
@@ -82,8 +87,24 @@ function MainWallet() {
                   {/* <Send />
                   <CircleArrowDown />
                   <ArrowLeftRight /> */}
-                  <CirclePlus />
-                  <Trash />
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger><CirclePlus className="w-5" /></TooltipTrigger>
+                      <TooltipContent>
+                        <p>Add Account</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger><Trash className="w-5" /></TooltipTrigger>
+                      <TooltipContent>
+                        <p>Delete Account</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                  
                 </div>
                 <div className="flex justify-end">
                   <h1 className="mr-3 text-6xl font-medium">0.0001</h1>
@@ -93,6 +114,9 @@ function MainWallet() {
             </div>
           </div>
           <div className="mt-[-15px] w-full z-10 relative pt-14 pb-5 px-4 flex flex-col gap-5 bg-gray-100 dark:bg-gray-900 rounded-b-lg">
+            <div>
+              <h1>Ethereum: Account 1</h1>
+            </div>
             <div>
               <h1 className="text-xl font-bold">Public Key</h1>
               <p className="py-2 overflow-hidden">
@@ -104,10 +128,6 @@ function MainWallet() {
               <p>dasdadadadadadadadadsadadsadasdadad</p>
             </div>
           </div>
-        </div>
-        <div className="flex gap-2">
-          <Button>Add Account</Button>
-          <Button>Delete</Button>
         </div>
       </div>
     </>
