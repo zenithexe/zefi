@@ -26,7 +26,7 @@ function SeedPhrase({ setShowSeed, setShowWallet }) {
       <div className="flex flex-col items-center justify-center border-1 p-10 rounded-lg">
         <div className="mb-2 text-7xl font-bold">Seed Phase</div>
         <div className="text-lg font-mono">Make sure to keep it safe.</div>
-        <div className="mt-5  w-full flex justify-end py-4">
+        <div className="mt-5  w-full  flex justify-end py-4">
           {copied ? (
             <Button
               onClick={() => {
@@ -50,7 +50,7 @@ function SeedPhrase({ setShowSeed, setShowWallet }) {
             </Button>
           )}
         </div>
-        <div className="grid grid-cols-3 gap-4">
+        <div className="w-full grid grid-cols-3 gap-4">
           {seedPhase?.map((eachPhase, index) => (
             <div
               key={index}
