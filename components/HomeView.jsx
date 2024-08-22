@@ -2,7 +2,18 @@
 
 import React from "react";
 import { Button } from "./ui/button";
-function GeneratSeed({generateSeedFn}) {
+import { useGlobalState } from "@/provider/GlobalStateProvider";
+function HomeView({setShowHome, setShowSeed}) {
+
+  const { generateSeedPhase } = useGlobalState();
+
+  function handleCreateWallet(){
+    generateSeedPhase();
+    setShowHome(false);
+    setShowSeed(true)
+  }
+
+
   return (
     <>
       <div className="-z-10 top-0">
@@ -15,7 +26,7 @@ function GeneratSeed({generateSeedFn}) {
               </h1>
             </div>
             <div className="flex justify-center mt-20">
-              <Button onClick={generateSeedFn} className="px-10 py-6 rounded-full cursor-pointer">
+              <Button onClick={handleCreateWallet} className="px-10 py-6 rounded-full cursor-pointer">
                 <p className="text-xl font-bold">Create Wallet</p>
               </Button>
             </div>
@@ -29,4 +40,4 @@ function GeneratSeed({generateSeedFn}) {
   );
 }
 
-export default GeneratSeed;
+export default HomeView;

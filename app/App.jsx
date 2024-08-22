@@ -1,74 +1,78 @@
 "use client";
-import GeneratSeed from "@/components/GenerateSeed";
-import React, { useState } from "react";
-import { generateMnemonic, mnemonicToSeed } from "bip39";
+import Home from "@/components/HomeView";
+import React, { useEffect, useState } from "react";
+import { generateMnemonic, mnemonicToSeed, mnemonicToSeedSync } from "bip39";
 import SeedPhrase from "@/components/SeedPhrase";
 import { derivePath } from "ed25519-hd-key";
 import { Keypair } from "@solana/web3.js";
 import nacl from "tweetnacl";
-import { HDNodeWallet, Wallet } from "ethers";
+import { HDNodeWallet, Wallet, ethers } from "ethers";
 import MainWallet from "./MainWallet";
+import bs58 from "bs58";
+import { useGlobalState } from "@/provider/GlobalStateProvider";
 
 function App() {
-  const [showHome, setShowHome] = useState(false);
+  const [showHome, setShowHome] = useState(true);
   const [showSeed, setShowSeed] = useState(false);
-  const [showWallet, setShowWallet] = useState(true);
+  const [showWallet, setShowWallet] = useState(false);
 
-  const [seed, setSeed] = useState([0,1,2,3,4,5,6,7,8,9,10,11])
-  const [ethAccIndex,setEthAccIndex] = useState(0);
-  const [solAccIndex, setSolAccIndex] = useState(0);
-  
-  const [ethKeyPair, setEthKeyPair] = useState([])
-  const [solKeyPair, setSolKeyPair] = useState([])
+  const {setMnemonic, setSeed, setEthAccIndex, setEthAccounts, setSolAccIndex, setSolAccounts} = useGlobalState();
 
-  async function generateSeedPhase(){
-    const mnemonic = await generateMnemonic();
-    const seed = mnemonicToSeed(mnemonic);
-    setSeed(seed)
-  } 
-
-  function createSolAccount(){
-    const path = `m/44'/501'/${solAccIndex}'/0'`;
-    const derivedSeed = derivePath(path, seed.toString("hex")).key;
-    const secret = nacl.sign.keyPair.fromSeed(derivedSeed).secretKey;
-    const keypair = Keypair.fromSecretKey(secret);
-  
-
-    setSolAccIndex(solAccIndex+1);
-    
+  async function getSeed(mnemonic){
+    const seed = await mnemonicToSeed(mnemonic);
+    return seed;
   }
 
-  function createEthAccount(){
+  useEffect(() => {
+    const wallet = localStorage.getItem("wallet");
+    const mnemonic = localStorage.getItem("mnemonic");
 
-    const path = `m/44'/60'/${ethAccIndex}'/0'`;
-    const hdNode = HDNodeWallet.fromSeed(seed);
-    const child = hdNode.derivePath(path);
-    
-    const privateKey = child.privateKey;
-    const wallet = new Wallet(privateKey);
-    const publicKey = wallet.address;
+    const ethAccounts = JSON.parse(localStorage.getItem("ethAccounts"));
+    const solAccounts = JSON.parse(localStorage.getItem("solAccounts"));
 
-    setEthAccIndex(ethAccIndex+1);
+    const ethAccountIndex = parseInt(localStorage.getItem("ethAccIndex"));
+    const solAccountIndex = parseInt(localStorage.getItem("solAccIndex"));
 
-  }
+    if (wallet) {
+      setShowHome(false);
+      setShowWallet(true);
 
-  function deleteSolAccount(index){
+      setMnemonic(mnemonic);
+      const seed = getSeed(mnemonic)
+      setSeed(seed)
+      setEthAccounts(ethAccounts);
+      setSolAccounts(solAccounts);
+      setEthAccIndex(ethAccountIndex);
+      setSolAccIndex(solAccountIndex);
 
-  }
 
-  function deleteEthAccount(index) {
-
-  }
+    }
+  }, []);
 
   return (
     <>
-    <div>
-        {showHome && <GeneratSeed generateSeedFn={generateSeedPhase}/>}
-        {showSeed && <SeedPhrase seed={seed}/>}
-        {showWallet && <MainWallet/>}
-    </div>
+        <div className="w-full">
+          {showHome && (
+            <Home
+              setShowHome={setShowHome}
+              setShowSeed={setShowSeed}
+            />
+          )}
+          {showSeed && (
+            <SeedPhrase
+              setShowSeed={setShowSeed}
+              setShowWallet={setShowWallet}
+            />
+          )}
+          {showWallet && (
+            <MainWallet
+              setShowHome={setShowHome}
+              setShowWallet={setShowWallet}
+            />
+          )}
+        </div>
     </>
-  )
+  );
 }
 
 export default App;
