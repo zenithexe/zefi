@@ -3,6 +3,7 @@ import { Button } from "./ui/button";
 import ThemeSwitch from "./ThemeSwitch";
 import { Bird, Github } from "lucide-react";
 import { FaGithub } from "react-icons/fa";
+import Link from "next/link";
 
 function NavBar() {
   return (
@@ -13,7 +14,9 @@ function NavBar() {
           <Bird className="h-[30px] w-[30px]" />
         </div>
         <div className="flex gap-6">
-          <FaGithub className="w-6 h-6 cursor-pointer"/>
+          <Link href="https://github.com/zenithexe/zefi" passHref={true}>
+            <FaGithub className="w-6 h-6 cursor-pointer"/>
+          </Link>
           <ThemeSwitch />
         </div>
       </div>
