@@ -20,7 +20,7 @@ function App() {
 
   async function getSeed(mnemonic){
     const seed = await mnemonicToSeed(mnemonic);
-    return seed;
+    setSeed(seed)
   }
 
   useEffect(() => {
@@ -30,21 +30,25 @@ function App() {
     const ethAccounts = JSON.parse(localStorage.getItem("ethAccounts"));
     const solAccounts = JSON.parse(localStorage.getItem("solAccounts"));
 
-    const ethAccountIndex = parseInt(localStorage.getItem("ethAccIndex"));
-    const solAccountIndex = parseInt(localStorage.getItem("solAccIndex"));
+    const ethAccountIndex = parseInt(localStorage.getItem("ethIndex"));
+    const solAccountIndex = parseInt(localStorage.getItem("solIndex"));
 
     if (wallet) {
+      console.log('Triggereddd');
+
+
       setShowHome(false);
       setShowWallet(true);
 
       setMnemonic(mnemonic);
-      const seed = getSeed(mnemonic)
-      setSeed(seed)
+      getSeed(mnemonic)
+      
       setEthAccounts(ethAccounts);
       setSolAccounts(solAccounts);
+
+
       setEthAccIndex(ethAccountIndex);
       setSolAccIndex(solAccountIndex);
-
 
     }
   }, []);

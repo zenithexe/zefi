@@ -63,7 +63,7 @@ export function GlobalStateProvider({ children }) {
     });
 
     setSolAccIndex(prev => {
-      const index = solAccIndex + 1;
+      const index = prev + 1;
       localStorage.setItem('solIndex',index)
       return index;
     });
@@ -94,7 +94,7 @@ export function GlobalStateProvider({ children }) {
     });
 
     setEthAccIndex(prev => {
-      const index = ethAccIndex + 1;
+      const index = prev + 1;
       localStorage.setItem('ethIndex',index)
       return index;
     });
